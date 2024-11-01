@@ -1,0 +1,14 @@
+# Python files
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Environment files
+.env
+env/
+
+# Docker files
+*.log
+*.pid
+postgres_data/
+
