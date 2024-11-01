@@ -5,14 +5,12 @@ import os
 # Initialize the Flask application
 app = Flask(__name__)
 
-<<<<<<< HEAD
 # Load configuration from config.py
 app.config.from_object("config.Config")
-=======
+
 # Load configuration from environment variables for improved security
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///tasks.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
->>>>>>> 1124320 (enhancements are made for the final project)
 
 # Debug print statement to verify the database URI
 print("Database URI:", app.config["SQLALCHEMY_DATABASE_URI"])
@@ -31,18 +29,16 @@ class Task(db.Model):
 
 # Define Routes
 
-<<<<<<< HEAD
 # Root route to display tasks webpage (now same as /view-tasks)
 @app.route("/")
 def home():
     tasks = Task.query.all()
     return render_template("tasks.html", tasks=tasks)
-=======
+
 # Root route to display tasks webpage
 @app.route("/")
 def home():
     return render_template("tasks.html")
->>>>>>> 1124320 (enhancements are made for the final project)
 
 # GET route to retrieve all tasks (API endpoint)
 @app.route("/tasks", methods=["GET"])
@@ -50,7 +46,6 @@ def get_tasks():
     tasks = Task.query.all()
     return jsonify([task.to_dict() for task in tasks])
 
-<<<<<<< HEAD
 # POST route to add a new task (API endpoint)
 @app.route("/tasks", methods=["POST"])
 def add_task():
@@ -92,7 +87,7 @@ def create_tables():
 # Run the Flask application
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-=======
+
 # POST route to create a new task
 @app.route("/tasks", methods=["POST"])
 def create_task():
@@ -130,5 +125,5 @@ def delete_task(task_id):
 if __name__ == "__main__":
     db.create_all()  # Create tables if they don't exist
     app.run(host="0.0.0.0", port=5000, debug=True)
->>>>>>> 1124320 (enhancements are made for the final project)
+
 

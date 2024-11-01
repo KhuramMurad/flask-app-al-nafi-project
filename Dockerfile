@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Use an official Python runtime as a parent image
 FROM python:3.9
 
@@ -15,7 +14,6 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Run app.py when the container launches
-=======
 
 # Use a slim version of the Python base image
 FROM python:3.9-slim
@@ -34,5 +32,5 @@ COPY . .
 EXPOSE 5000
 
 # Run the application
->>>>>>> 1124320 (enhancements are made for the final project)
+
 CMD ["python", "app.py"]
