@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
+    <title>Task List</title>
+    <style>
+        /* Center the content vertically and horizontally */
+=======
+    <title>Tasks List</title>
+    <style>
+        /* Dark Theme Styling */
+>>>>>>> 1124320 (enhancements are made for the final project)
+        body, html {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+<<<<<<< HEAD
+        }
+
+        /* Container to wrap content and center it */
+=======
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+>>>>>>> 1124320 (enhancements are made for the final project)
+        .container {
+            text-align: center;
+            width: 80%;
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+<<<<<<< HEAD
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Style for the task form */
+=======
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
+
+>>>>>>> 1124320 (enhancements are made for the final project)
+        input[type="text"] {
+            padding: 8px;
+            margin: 5px 0;
+            width: calc(100% - 20px);
+            border-radius: 4px;
+<<<<<<< HEAD
+            border: 1px solid #ccc;
+        }
+
+        /* Buttons styling */
+        button {
+            padding: 8px 16px;
+            margin: 5px 5px 0 5px;
+=======
+            border: 1px solid #333;
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+>>>>>>> 1124320 (enhancements are made for the final project)
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+<<<<<<< HEAD
+        /* Style for task list */
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        li {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+<<<<<<< HEAD
+=======
+            border-bottom: 1px solid #333;
+>>>>>>> 1124320 (enhancements are made for the final project)
+        }
+
+        li strong {
+            margin-right: 10px;
+        }
+
+<<<<<<< HEAD
+        /* Warning message styling */
+        .warning {
+            color: red;
+=======
+        .warning {
+            color: #ff6b6b;
+>>>>>>> 1124320 (enhancements are made for the final project)
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+    <script>
+<<<<<<< HEAD
+        // Function to fetch and display tasks
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        async function listTasks() {
+            const response = await fetch('/tasks');
+            const tasks = await response.json();
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<span><strong>${task.title}</strong>: ${task.description}</span>
+                                      <div>
+                                          <button onclick="editTask(${task.id}, '${task.title}', '${task.description}')">Edit</button>
+                                          <button onclick="deleteTask(${task.id})">Delete</button>
+                                      </div>`;
+                taskList.appendChild(listItem);
+            });
+        }
+
+<<<<<<< HEAD
+        // Function to add a new task with validation
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        async function addTask() {
+            const title = document.getElementById('task-title').value.trim();
+            const description = document.getElementById('task-desc').value.trim();
+            const warning = document.getElementById('warning-message');
+
+<<<<<<< HEAD
+            // Check if title or description is empty
+            if (title === "" || description === "") {
+                warning.textContent = "Please fill out both the title and description before adding a task.";
+                return;
+            }
+
+            // Clear warning and proceed with adding the task
+=======
+            if (title === "" || description === "") {
+                warning.textContent = "Please fill out both the title and description.";
+                return;
+            }
+
+>>>>>>> 1124320 (enhancements are made for the final project)
+            warning.textContent = "";
+            await fetch('/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description })
+            });
+            document.getElementById('task-title').value = '';
+            document.getElementById('task-desc').value = '';
+            listTasks();
+        }
+
+<<<<<<< HEAD
+        // Function to edit a task (populate form with existing values)
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        function editTask(id, title, description) {
+            document.getElementById('task-id').value = id;
+            document.getElementById('task-title').value = title;
+            document.getElementById('task-desc').value = description;
+            document.getElementById('update-task').style.display = 'inline';
+            document.getElementById('add-task').style.display = 'none';
+        }
+
+<<<<<<< HEAD
+        // Function to update a task
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        async function updateTask() {
+            const id = document.getElementById('task-id').value;
+            const title = document.getElementById('task-title').value;
+            const description = document.getElementById('task-desc').value;
+            await fetch(`/tasks/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description })
+            });
+            document.getElementById('task-id').value = '';
+            document.getElementById('task-title').value = '';
+            document.getElementById('task-desc').value = '';
+            document.getElementById('update-task').style.display = 'none';
+            document.getElementById('add-task').style.display = 'inline';
+            listTasks();
+        }
+
+<<<<<<< HEAD
+        // Function to delete a task
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        async function deleteTask(id) {
+            await fetch(`/tasks/${id}`, { method: 'DELETE' });
+            listTasks();
+        }
+
+<<<<<<< HEAD
+        // Load the tasks when the page loads
+=======
+>>>>>>> 1124320 (enhancements are made for the final project)
+        window.onload = listTasks;
+    </script>
+</head>
+<body>
+    <div class="container">
+<<<<<<< HEAD
+        <h1>Task List</h1>
+
+        <!-- Task Form -->
+=======
+        <h1>Tasks List</h1>
+>>>>>>> 1124320 (enhancements are made for the final project)
+        <input type="hidden" id="task-id">
+        <input type="text" id="task-title" placeholder="Enter task title">
+        <input type="text" id="task-desc" placeholder="Enter task description">
+        <button id="add-task" onclick="addTask()">Add Task</button>
+        <button id="update-task" onclick="updateTask()" style="display:none;">Update Task</button>
+<<<<<<< HEAD
+
+        <!-- Warning message for empty input -->
+        <div id="warning-message" class="warning"></div>
+
+        <!-- Task List -->
+=======
+        <div id="warning-message" class="warning"></div>
+>>>>>>> 1124320 (enhancements are made for the final project)
+        <ul id="task-list"></ul>
+    </div>
+</body>
+</html>
+

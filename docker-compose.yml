@@ -1,0 +1,52 @@
+<<<<<<< HEAD
+=======
+
+version: '3.8'
+
+>>>>>>> 1124320 (enhancements are made for the final project)
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+<<<<<<< HEAD
+      - DATABASE_URL=postgresql://user:password@db:5432/todo_db
+    depends_on:
+      - db
+=======
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+    networks:
+      - my_network
+>>>>>>> 1124320 (enhancements are made for the final project)
+
+  db:
+    image: postgres:13
+    environment:
+<<<<<<< HEAD
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: todo_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+=======
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+volumes:
+  postgres_data:
+
+networks:
+  my_network:
+    driver: bridge
+>>>>>>> 1124320 (enhancements are made for the final project)
