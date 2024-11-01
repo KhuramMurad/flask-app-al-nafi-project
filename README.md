@@ -127,12 +127,12 @@ environment:
 
 ## Screenshots
 
-![image](https://github.com/user-attachments/assets/ea477a52-3bf5-4917-aa76-dae429ab094c)
+![image](https://github.com/user-attachments/assets/d4cf236c-19af-41e9-9752-1a832491c35c)
+
 
 
 - **Main Interface**:
-  ![Task Management Interface](https://github.com/your-username/flask-crud-app/blob/main/assets/main-interface.png)
-
+  ![Task Management Interface](![image](https://github.com/user-attachments/assets/af6236ee-f58b-466d-8773-a6faa5cdc728)
 > **Tip**: To add screenshots, create an `assets` folder in your repository and upload your images. Then reference them in the README.
 
 ---
