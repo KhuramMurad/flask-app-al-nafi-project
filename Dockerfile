@@ -14,23 +14,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Run app.py when the container launches
-
-# Use a slim version of the Python base image
-FROM python:3.9-slim
-
-# Set the working directory
-WORKDIR /app
-
-# Install dependencies
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
-
-# Copy the application code
-COPY . .
-
-# Expose port 5000 for Flask
-EXPOSE 5000
-
-# Run the application
-
 CMD ["python", "app.py"]

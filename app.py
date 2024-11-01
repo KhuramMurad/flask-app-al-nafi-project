@@ -8,10 +8,6 @@ app = Flask(__name__)
 # Load configuration from config.py
 app.config.from_object("config.Config")
 
-# Load configuration from environment variables for improved security
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///tasks.db")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 # Debug print statement to verify the database URI
 print("Database URI:", app.config["SQLALCHEMY_DATABASE_URI"])
 
@@ -34,11 +30,6 @@ class Task(db.Model):
 def home():
     tasks = Task.query.all()
     return render_template("tasks.html", tasks=tasks)
-
-# Root route to display tasks webpage
-@app.route("/")
-def home():
-    return render_template("tasks.html")
 
 # GET route to retrieve all tasks (API endpoint)
 @app.route("/tasks", methods=["GET"])
@@ -87,43 +78,4 @@ def create_tables():
 # Run the Flask application
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-
-# POST route to create a new task
-@app.route("/tasks", methods=["POST"])
-def create_task():
-    data = request.get_json()
-    title = data.get("title")
-    description = data.get("description", "")
-
-    if not title:
-        return jsonify({"error": "Title is required"}), 400
-
-    new_task = Task(title=title, description=description)
-    db.session.add(new_task)
-    db.session.commit()
-    return jsonify(new_task.to_dict()), 201
-
-# PUT route to update a task
-@app.route("/tasks/<int:task_id>", methods=["PUT"])
-def update_task(task_id):
-    task = Task.query.get_or_404(task_id)
-    data = request.get_json()
-    task.title = data.get("title", task.title)
-    task.description = data.get("description", task.description)
-    db.session.commit()
-    return jsonify(task.to_dict()), 200
-
-# DELETE route to delete a task
-@app.route("/tasks/<int:task_id>", methods=["DELETE"])
-def delete_task(task_id):
-    task = Task.query.get_or_404(task_id)
-    db.session.delete(task)
-    db.session.commit()
-    return jsonify({"message": "Task deleted"}), 200
-
-# Run the app only if executed directly (useful for debugging)
-if __name__ == "__main__":
-    db.create_all()  # Create tables if they don't exist
-    app.run(host="0.0.0.0", port=5000, debug=True)
-
 
