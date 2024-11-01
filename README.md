@@ -129,12 +129,6 @@ environment:
 
 ![image](https://github.com/user-attachments/assets/d4cf236c-19af-41e9-9752-1a832491c35c)
 
-
-
-- **Main Interface**:
-  ![Task Management Interface](![image](https://github.com/user-attachments/assets/af6236ee-f58b-466d-8773-a6faa5cdc728)
-> **Tip**: To add screenshots, create an `assets` folder in your repository and upload your images. Then reference them in the README.
-
 ---
 
 ## Folder Structure and Key Files
