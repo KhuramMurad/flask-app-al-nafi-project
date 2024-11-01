@@ -1,166 +1,95 @@
-# Flask CRUD Application with Docker
+# Flask CRUD Application
 
-A 3-tier CRUD (Create, Read, Update, Delete) web application built with Flask, PostgreSQL, and Docker. This application allows users to manage tasks with functionalities like adding, updating, and deleting tasks. It includes a web interface for task management, a RESTful API for programmatic access, and a Dockerized setup for simplified deployment.
+This is a simple CRUD application built using Flask, SQLAlchemy, PostgreSQL, and Docker. The application allows users to manage a list of tasks through a web interface, providing full functionality for adding, viewing, editing, and deleting tasks. This project is used as part of my oral presentation at AL-Nafi.
 
 ## Features
 
-- **RESTful API** built with Flask for CRUD operations on tasks.
-- **Interactive Web Interface** with buttons for creating, updating, and deleting tasks.
-- **Input Validation** to prevent adding empty tasks.
-- **Dockerized Setup** with PostgreSQL, making it easy to deploy the entire application stack.
-
+- **Add Tasks**: Users can add new tasks by providing a title and description.
+- **View Tasks**: View all tasks with titles and descriptions in a list format.
+- **Edit Tasks**: Update the title and description of an existing task.
+- **Delete Tasks**: Remove tasks from the list with a single click.
+- **Dark Theme**: The application has a dark theme for enhanced user experience.
 
 ## Project Structure
 
-The project follows a simple structure:
-
-```plaintext
-flask_crud_app/
-├── app.py                 # Main Flask application
-├── config.py              # Configuration file for database settings
-├── requirements.txt       # Python dependencies
-├── Dockerfile             # Dockerfile for building the Flask app
-├── docker-compose.yml     # Docker Compose file for managing containers
-├── templates/
-│   └── tasks.html         # HTML template for the task management interface
-└── README.md              # Project documentation
+```
+.
+├── app.py                   # Main Flask application file
+├── config.py                # Configuration file for database and settings
+├── Dockerfile               # Dockerfile to containerize the application
+├── docker-compose.yml       # Docker Compose file for multi-container setup
+├── requirements.txt         # List of Python dependencies
+├── .gitignore               # Git ignore file
+├── .env                     # Environment variables file
+└── templates
+    └── tasks.html           # HTML template for displaying and managing tasks
 ```
 
----
+## Installation and Setup
 
-## Prerequisites
+### Prerequisites
 
-To run this project, ensure you have the following installed:
+- **Docker** and **Docker Compose** installed on your system.
 
-- [Docker](https://www.docker.com/products/docker-desktop) and [Docker Compose](https://docs.docker.com/compose/install/)
-- [Git](https://git-scm.com/) for version control
-
-> **Note**: Python is optional, only required if you wish to run the app locally without Docker.
-
----
-
-## Getting Started
-
-### 1. Clone the Repository
-
-Clone this repository to your local machine:
+### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/flask-crud-app.git
+git clone https://github.com/yourusername/flask-crud-app.git
 cd flask-crud-app
 ```
 
-### 2. Run the Application with Docker
+### Set Up Environment Variables
 
-Build and run the application using Docker Compose:
+Create a `.env` file in the root directory and add the following environment variables:
 
-```bash
-docker-compose up --build
+```plaintext
+DATABASE_URL=postgresql://user:password@db:5432/todo_db
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_DB=todo_db
 ```
 
-This command will start both the Flask application and a PostgreSQL database within Docker containers.
+### Run the Application with Docker Compose
 
-- The Flask app will be accessible at `http://localhost:5000`.
+1. Build and start the application using Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+   
+2. The application will be available at [http://localhost:5000](http://localhost:5000).
 
-### 3. Access the Web Interface
+## Usage
 
-Navigate to `http://localhost:5000` in your browser. You’ll see the main task management interface, allowing you to:
+1. **Access the Web Application**:
+   - Go to [http://localhost:5000](http://localhost:5000) to use the app.
 
-- **Add New Tasks**
-- **Edit and Update Tasks**
-- **Delete Tasks**
+2. **Adding a Task**:
+   - Enter the task title and description in the input fields and click **Add Task**.
 
-You can also access the RESTful API for programmatic task management.
+3. **Editing a Task**:
+   - Click **Edit** next to the task you want to modify. Update the title and description, then click **Update Task**.
 
----
+4. **Deleting a Task**:
+   - Click **Delete** next to the task you want to remove.
 
-## API Endpoints
+## Technology Stack
 
-The application exposes the following API endpoints:
+- **Flask**: Web framework for building the application.
+- **SQLAlchemy**: ORM for interacting with the PostgreSQL database.
+- **PostgreSQL**: Database used for storing tasks.
+- **Docker**: Containerization of the application for easy deployment.
+- **JavaScript**: Frontend scripting to handle add, edit, and delete actions.
 
-- **`GET /tasks`**: Retrieve all tasks.
-- **`POST /tasks`**: Add a new task (expects JSON body with `title` and `description`).
-- **`PUT /tasks/<id>`**: Update an existing task by ID.
-- **`DELETE /tasks/<id>`**: Delete a task by ID.
+## Presentation
 
-### Example Usage
+This project is being used for my oral presentation at **AL-Nafi**, demonstrating the fundamentals of web development, containerization, and database management with Flask and Docker.
 
-Use `curl` or Postman to interact with the API endpoints:
+## Future Enhancements
 
-- **Add a new task**:
-  ```bash
-  curl -X POST http://localhost:5000/tasks -H "Content-Type: application/json" -d '{"title": "Sample Task", "description": "This is a sample task"}'
-  ```
-
-- **List all tasks**:
-  ```bash
-  curl http://localhost:5000/tasks
-  ```
-
----
-
-## Frontend Features
-
-The web interface provides the following functionalities:
-
-- **Task Input Form**: Fields to enter a task title and description.
-- **CRUD Buttons**: Buttons for adding, editing, updating, and deleting tasks.
-- **Validation**: Displays a warning message if an attempt is made to add an empty task.
-
----
-
-## Environment Variables
-
-The application uses environment variables for database configuration. You can modify these settings in `config.py` or in the `docker-compose.yml` file as needed.
-
-### Key Environment Variables
-
-- **`DATABASE_URL`**: The URL for connecting to the PostgreSQL database.
-
-Example (in `docker-compose.yml`):
-```yaml
-environment:
-  - DATABASE_URL=postgresql://user:password@db:5432/todo_db
-```
-
----
-
-## Screenshots
-
-![image](https://github.com/user-attachments/assets/d4cf236c-19af-41e9-9752-1a832491c35c)
-
----
-
-## Folder Structure and Key Files
-
-- **`app.py`**: Contains the main application logic, including routes and database models.
-- **`config.py`**: Configuration settings for connecting to PostgreSQL.
-- **`templates/tasks.html`**: HTML frontend with JavaScript for dynamic task management.
-- **`Dockerfile`** and **`docker-compose.yml`**: Docker configuration files for building and managing the application stack.
-
----
+- **User Authentication**: Adding user login and registration for individual task management.
+- **Search Functionality**: Allow users to search for specific tasks.
+- **Enhanced Error Handling**: Improve error messages and handling across the application.
 
 ## License
 
-This project is licensed under the **GPL License**. See the [LICENSE](LICENSE) file for more details.
-
----
-
-## Contributing
-
-Contributions are welcome! If you’d like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch with a descriptive name.
-3. Make your changes and test thoroughly.
-4. Submit a pull request with a clear description of the changes.
-
----
-
-## Acknowledgments
-
-This project is inspired by the need for a simple and effective CRUD application setup that demonstrates both backend and frontend development with Dockerized deployment.
-
----
-
-This README file should now look clean, professional, and informative, giving users and developers a clear understanding of how to use and contribute to the project. Let me know if there are any additional details or changes you'd like to add!
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
