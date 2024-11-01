@@ -92,4 +92,13 @@ This project is being used for my oral presentation at **AL-Nafi**, demonstratin
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Educational License
+
+This project, "Flask CRUD Application," is provided solely for educational purposes. You may use, modify, and distribute this code for non-commercial purposes, such as personal study or academic projects.
+
+The author grants no warranties or guarantees regarding the software. Users are responsible for determining its fitness for educational purposes.
+
+**Non-Commercial Clause**: This code and its components may not be used for commercial purposes, nor may they be included in projects intended for profit.
+
+Author: Khuram Murad
+email: khuram.saggu@gmail.com
