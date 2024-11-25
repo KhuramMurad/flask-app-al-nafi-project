@@ -1,45 +1,56 @@
-module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  version         = "20.29.0"
-  cluster_name    = var.cluster_name
-  cluster_version = "1.27"
-
-  vpc_id     = var.vpc_id
-  subnet_ids = var.private_subnets
-
-  # Enable creation of the cluster IAM role
-  create_eks = true
-
-  # Tags for the cluster
-  tags = {
-    Environment = var.environment
-    Project     = var.project
-  }
+provider "aws" {
+  region = var.aws_region
 }
 
-module "node_group" {
-  source          = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
-  version         = "20.29.0"
+# IAM Role for EKS Cluster
+resource "aws_iam_role" "eks_cluster" {
+  name        = "${var.cluster_name}-eks-cluster"
+  description = "IAM Role for EKS Cluster"
 
-  cluster_name = module.eks.cluster_id
-  subnet_ids   = var.private_subnets
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "eks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
 
-  node_group_defaults = {
-    ami_type             = "AL2_x86_64"
-    disk_size            = 20
-    instance_types       = [var.node_instance_type]
-    capacity_type        = "ON_DEMAND"
-    desired_capacity     = var.desired_capacity
-    min_size             = var.min_size
-    max_size             = var.max_size
-    enable_monitoring    = true
-    enable_auto_scaling  = true
-    auto_scaling_metrics = true
+# Attach Policies to EKS IAM Role
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_cluster.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_cluster_AmazonEKSServicePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = aws_iam_role.eks_cluster.name
+}
+
+# EKS Cluster
+resource "aws_eks_cluster" "this" {
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_cluster.arn
+
+  version = var.kubernetes_version
+
+  vpc_config {
+    subnet_ids = var.private_subnets
   }
 
   tags = {
     Environment = var.environment
     Project     = var.project
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.eks_cluster_AmazonEKSServicePolicy
+  ]
 }
 

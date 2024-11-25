@@ -1,20 +1,42 @@
-# Terraform files
-**/.terraform/
-*.tfstate
-*.tfstate.backup
-*.tfvars
-
-# Sensitive files
-*.crt
-*.key
-
-# Python cache
+# Byte-compiled Python files
 *.pyc
+*.pyo
 __pycache__/
 
-# OS files
-.DS_Store
+# Environment files (if virtual environment is used)
+env/
+venv/
+*.egg-info/
 
-# IDE files
-*.vscode/
+# SSL keys (for security reasons)
+app/ssl/*.key
+app/ssl/*.crt
+
+# Docker-related files
+*.tar
+*.img
+
+# Terraform state and backup files
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Prometheus and Grafana configurations (if auto-generated)
+monitoring/grafana/*.json
+monitoring/prometheus.yml
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Test artifacts
+tests/*.log
+
+# Node modules (if any JavaScript/Node.js code is added later)
+node_modules/
 
