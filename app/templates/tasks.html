@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Base Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f6f9;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header Styling */
+        h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px 2px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn.edit {
+            background-color: #4CAF50;
+        }
+
+        .btn.delete {
+            background-color: #ff5c5c;
+        }
+
+        .btn.delete:hover {
+            background-color: #e60000;
+        }
+
+        /* Form Styling */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .task-list {
+            margin-top: 20px;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 8px 16px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Dark Theme Styles */
+        .dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .container {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .task-item {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .btn {
+            background-color: #4a90e2;
+        }
+
+        .dark-mode .btn.delete {
+            background-color: #ff6b6b;
+        }
+
+        .dark-mode .toggle-btn {
+            background-color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="theme-toggle" class="toggle-btn">Toggle Dark Theme</button>
+        <h2>Task List</h2>
+        <form id="task-form" onsubmit="addTask(); return false;">
+            <input type="text" id="task-title" placeholder="Enter task title" required>
+            <input type="text" id="task-desc" placeholder="Enter task description">
+            <button type="submit" class="btn">Add Task</button>
+        </form>
+        <div id="tasks" class="task-list"></div>
+    </div>
+
+    <script>
+        let darkMode = false;
+        const toggleButton = document.getElementById('theme-toggle');
+        const container = document.querySelector('.container');
+
+        toggleButton.addEventListener('click', () => {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode', darkMode);
+        });
+
+        // Load tasks from the server
+        async function loadTasks() {
+            const response = await fetch('/tasks');
+            const tasks = await response.json();
+            const tasksContainer = document.getElementById('tasks');
+            tasksContainer.innerHTML = '';
+            tasks.forEach(task => {
+                tasksContainer.appendChild(createTaskElement(task));
+            });
+        }
+
+        function createTaskElement(task) {
+            const taskItem = document.createElement('div');
+            taskItem.classList.add('task-item');
+            taskItem.dataset.id = task.id;
+            taskItem.innerHTML = `
+                <div class="task-content">
+                    <strong>${task.title}</strong><br>
+                    <small>${task.description}</small>
+                </div>
+                <div class="task-actions">
+                    <button class="btn edit" onclick="editTask(${task.id})">Edit</button>
+                    <button class="btn delete" onclick="deleteTask(${task.id})">Delete</button>
+                </div>
+            `;
+            return taskItem;
+        }
+
+        async function addTask() {
+            const title = document.getElementById('task-title').value;
+            const description = document.getElementById('task-desc').value;
+            const response = await fetch('/tasks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description })
+            });
+            const newTask = await response.json();
+            document.getElementById('tasks').appendChild(createTaskElement(newTask));
+            document.getElementById('task-title').value = '';
+            document.getElementById('task-desc').value = '';
+        }
+
+        async function deleteTask(id) {
+            await fetch(`/tasks/${id}`, { method: 'DELETE' });
+            document.querySelector(`.task-item[data-id="${id}"]`).remove();
+        }
+
+        async function editTask(id) {
+            const taskItem = document.querySelector(`.task-item[data-id="${id}"]`);
+            const newTitle = prompt("Edit Task Title:", taskItem.querySelector(".task-content strong").innerText);
+            const newDescription = prompt("Edit Task Description:", taskItem.querySelector(".task-content small").innerText);
+
+            if (newTitle && newDescription) {
+                const response = await fetch(`/tasks/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: newTitle, description: newDescription })
+                });
+                const updatedTask = await response.json();
+                taskItem.querySelector(".task-content strong").innerText = updatedTask.title;
+                taskItem.querySelector(".task-content small").innerText = updatedTask.description;
+            }
+        }
+
+        // Load tasks on page load
+        loadTasks();
+    </script>
+</body>
+</html>
+
