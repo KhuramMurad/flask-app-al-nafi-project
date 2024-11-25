@@ -1,18 +1,20 @@
-# Terraform cache and state
-terraform-workspace/**/.terraform/
-terraform-workspace/**/.terraform.lock.hcl
-terraform-workspace/**/terraform.tfstate*
-terraform-workspace/**/.terraform/providers/
+# Terraform files
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# Sensitive files
+*.crt
+*.key
 
 # Python cache
-app/__pycache__/
-tests/__pycache__/
+*.pyc
+__pycache__/
 
-# SSL keys
-app/ssl/*.crt
-app/ssl/*.key
+# OS files
+.DS_Store
 
-# Logs and temporary files
-*.log
-*.tmp
+# IDE files
+*.vscode/
 
