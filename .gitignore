@@ -1,8 +1,18 @@
-.terraform/
-*.tfstate
-*.tfstate.backup
-crash.log
-*.lock.hcl
-.terraform.lock.hcl
-.terraform/providers/
+# Terraform cache and state
+terraform-workspace/**/.terraform/
+terraform-workspace/**/.terraform.lock.hcl
+terraform-workspace/**/terraform.tfstate*
+terraform-workspace/**/.terraform/providers/
+
+# Python cache
+app/__pycache__/
+tests/__pycache__/
+
+# SSL keys
+app/ssl/*.crt
+app/ssl/*.key
+
+# Logs and temporary files
+*.log
+*.tmp
 
